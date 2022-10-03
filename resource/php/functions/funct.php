@@ -137,11 +137,11 @@ function vald(){
                         $login = $user->login(Input::get('username'),Input::get('password'),$remember);
                         if($login){
                             if($user->data()->groups == 1){
-                                 Redirect::to('template.php');
-                                echo $user->data()->groups;
+                                 Redirect::to('registrarDashboard.php');
+                            }elseif($user->data()->groups == 2){
+                                 Redirect::to('accountingDashboard.php');
                             }else{
                                  Redirect::to('template.php');
-                                echo $user->data()->groups;
                             }
                         }else{
                             loginError();
@@ -160,6 +160,20 @@ function vald(){
             if(!$user->isLoggedIn()){
                 Redirect::to('login.php');
             }
+        }
+
+        function isAccounting($user){
+          if($user !== "2"){
+            header("HTTP/1.1 403 Forbidden");
+            exit();
+          }
+        }
+
+        function isRegistrar($user){
+          if($user !== "1"){
+            header("HTTP/1.1 403 Forbidden");
+            exit();
+          }
         }
 
 function profilePic(){
